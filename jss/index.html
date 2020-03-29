@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Problem</title>
+    <style>
+        .bar0 {
+            vertical-align: bottom;
+            background-color: #00C000;
+        }
+
+        .bar1 {
+            vertical-align: bottom;
+            background-color: #309000;
+        }
+
+        .bar2 {
+            vertical-align: bottom;
+            background-color: #606000;
+        }
+
+        .bar3 {
+            vertical-align: bottom;
+            background-color: #903000;
+        }
+
+        .bar4 {
+            vertical-align: bottom;
+            background-color: #C00000;
+        }
+
+        td {
+            vertical-align: bottom
+        }
+    </style>
+
+</head>
+
+<body onload="bodyLoaded()">
+    <h3>Grade Distribution</h3>
+    <table id="distributionTable">
+    </table>
+    <script>
+
+        let inp = prompt("Input grades: ")
+        function parseScores(input) {
+            if (input) {
+                const array_input = input.split(" ");
+                return array_input;
+            }
+            else {
+                return [];
+            }
+
+        }
+        function buildDistributionArray(arr_inp) {
+            let i = 0
+            let a = b = c = d = f = 0;
+            let array_distr = []
+
+            if (arr_inp.length != 0) {
+                for (i = 0; i <= arr_inp.length; i++) {
+                    if (parseInt(arr_inp[i]) >= 90) {
+                        a += 1;
+                    }
+                    else if (parseInt(arr_inp[i]) >= 80 && parseInt(arr_inp[i]) <= 89) {
+                        b += 1;
+                    }
+                    else if (parseInt(arr_inp[i]) >= 70 && parseInt(arr_inp[i]) <= 79) {
+                        c += 1;
+                    }
+                    else if (parseInt(arr_inp[i]) >= 60 && parseInt(arr_inp[i]) <= 69) {
+                        d += 1;
+                    }
+                    else if (parseInt(arr_inp[i]) <= 59) {
+                        f += 1;
+                    }
+                }
+                array_distr.push(a, b, c, d, f);
+                return array_distr;
+            }
+            else {
+                return [0, 0, 0, 0, 0];
+            }
+        }
+        let result = parseScores(inp);
+        console.log(result);
+        console.log(buildDistributionArray(result));
+
+        function setTableContent(str_scores) {
+            const res = parseScores(str_scores);
+            const distr = buildDistributionArray(res);
+            console.log(distr);
+
+            // for every one entry of a particular grade, give its corresponding div a height increase of 10px
+            function height(n){
+                i = h = 0;
+                while(i < n){
+                    h += 10;
+                    i += 1;
+                }
+                return (h * 2);
+            }
+            console.log(height(3))
+            document.getElementById('distributionTable').innerHTML = `
+                <tr>
+                    <td><div style="height:${height(distr[0])}px" class="bar0"></div></td>
+                    <td><div style="height:${height(distr[1])}px" class="bar1"></div></td>
+                    <td><div style="height:${height(distr[2])}px" class="bar2"></div></td>
+                    <td><div style="height:${height(distr[3])}px" class="bar3"></div></td>
+                    <td><div style="height:${height(distr[4])}px" class="bar4"></div></td>
+                </tr>
+                <tr>
+                    <td><div >A</div></td>
+                    <td><div >B</div></td>
+                    <td><div >C</div></td>
+                    <td><div >D</div></td>
+                    <td><div >F</div></td>
+                </tr>
+                <tr>
+                    <td><div >${distr[0]}</div></td>
+                    <td><div >${distr[1]}</div></td>
+                    <td><div >${distr[2]}</div></td>
+                    <td><div >${distr[3]}</div></td>
+                    <td><div >${distr[4]}</div></td>
+                </tr>
+            `;
+        }
+        function bodyLoaded(){
+            setTableContent(inp)
+        }
+
+    </script>
+
+</body>
+
+</html>
